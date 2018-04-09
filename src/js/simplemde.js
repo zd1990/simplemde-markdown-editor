@@ -10,6 +10,7 @@ require("codemirror/addon/display/placeholder.js");
 require("codemirror/addon/selection/mark-selection.js");
 require("codemirror/mode/gfm/gfm.js");
 require("codemirror/mode/xml/xml.js");
+var debounce = require("lodash/debounce");
 var CodeMirrorSpellChecker = require("codemirror-spell-checker");
 var marked = require("marked");
 
@@ -736,7 +737,7 @@ function toggleSideBySide(editor) {
 
 	if(useSideBySideListener) {
 		preview.innerHTML = editor.options.previewRender(editor.value(), preview);
-		cm.on("update", cm.sideBySideRenderingFunction);
+		cm.on("update", debounce(cm.sideBySideRenderingFunction, 500));
 	} else {
 		cm.off("update", cm.sideBySideRenderingFunction);
 	}
